@@ -1,0 +1,91 @@
+#include<iostream>
+#include<unistd.h>
+#include<bits/stdc++.h>
+
+using namespace std;
+
+//utility function to check for upper case character
+bool isUpperCase(char c)
+{
+	if((c <= 'Z' && c >= 'A'))
+		return true;
+		
+	return false;
+}
+
+//utility function to check for lower case character
+bool isLowerCase(char c)
+{
+	if((c <= 'z' && c >= 'a'))
+		return true;
+		
+	return false;
+}
+
+//utility function to check for decimal digit
+bool isDecimalDigit(char c)
+{
+	if((c <= '9' && c >= '0'))
+		return true;
+		
+	return false;
+}
+
+//driver function
+int main()
+{
+	char *pass = getpass("Enter your password : "); //getpass() is used to get hidden input
+	
+	
+	int i, arr[4] = {0}, count = 0;
+	
+	if(strlen(pass) <=6)
+	{
+		cout << "Your password is very small. SORRYYY !!!" << endl ;
+	}
+	else
+	{
+		for(i = 0; pass[i]!='\0'; i++)
+		{
+			if(isUpperCase(pass[i])) // is an upper case letter
+			{
+				arr[0] = 1;
+				continue;
+			}
+			else if(isLowerCase(pass[i])) //is a lower case letter
+			{
+				arr[1] = 1;
+				continue;
+			}
+			else if(isDecimalDigit(pass[i])) //is a decimal digit
+			{
+				arr[2] = 1;
+				continue;
+			}
+			else //special character
+			{
+				arr[3] = 1;
+				continue;
+			}
+		}
+	}
+	
+	for(i=0; i<4; i++)
+	{
+		if(arr[i] != 0)
+			count++;
+	}
+	
+	if(count == 1)
+		cout << "Your password is normal" << endl;
+		
+	if(count == 2)
+		cout << "Your password is moderate" << endl;
+	
+	if(count == 3)
+		cout << "Your password is strong" << endl;
+	
+	if(count == 4)
+		cout << "Your password is very strong" << endl;
+return 0;
+}
