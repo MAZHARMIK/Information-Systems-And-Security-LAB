@@ -1,14 +1,15 @@
 #include<stdio.h>
+#include<string.h>
 
-char Scytale[4][5];
+char Scytale[100][100];
 
 //Creating the Scytale Cipher
-void MakeScytale(char Message[])
+void MakeScytale(char Message[], int key, int column)
 {
     int i, j, k=0 ;
-    for(i=0; i<4; i++)
+    for(i=0; i<key; i++)
     {
-        for(j=0; j<5; j++)
+        for(j=0; j<column; j++)
         {
             if(Message[k]==' ')
             {
@@ -33,13 +34,13 @@ int SpaceCount(char Message[])
 }
 
 //Encryption Scheme
-void EncryptedMessage()
+void EncryptedMessage(int key, int column)
 {
     int i, j;
 
-    for(i=0; i<4; i++)
+    for(i=0; i<key; i++)
     {
-        for(j=0; j<5; j++)
+        for(j=0; j<column; j++)
         {
             printf("%c", Scytale[i][j]);
         }
@@ -65,16 +66,24 @@ void DecryptedMessage()
 //Driver Function
 int main()
 {
-    char Message[] =  "I am hurt very badly HELP" ;
+    char Message[100];
+    int key;
+    
+    printf("Enter the message: ");
+    scanf("%[^\n]c", Message);
+    
+    printf("\nEnter the key Size: ");
+    scanf("%d", &key);
 
     int length = strlen(Message);
     int space = SpaceCount(Message);
+	int column = (length-space)/key;
+    MakeScytale(Message, key, column);
 
-    MakeScytale(Message);
-
-    EncryptedMessage();
-
+	printf("CYPHER TEXT: ");
+	
     DecryptedMessage();
+    
 
 return 0;
 }
