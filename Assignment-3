@@ -1,0 +1,72 @@
+#include <stdio.h>
+int frequency1[123]={0};
+int frequency2[123]={0};
+
+int main()
+{
+	FILE *fp1, *fp2 ;
+   	int c, i, val ;
+   	fp1 = fopen("text.txt", "r+");
+   	fp2 = fopen("cipher_text.txt", "r+");
+   	
+   	while ((c = getc(fp1)) != EOF)
+   	{
+   		if(c!='\n')
+   		{
+   			if(c==' ')
+   				fprintf(fp2,"%c",c);
+   			else
+   			{
+   				if(c >= 97 && c <= 122) //small letters
+   				{
+   					if(c+7 <= 122)	
+   					{
+   						val = c+7;
+   						fprintf(fp2,"%c",c+7);
+   					}
+   					else //round
+   					{
+   						val = 96+(7-(122-c));
+	   					fprintf(fp2,"%c",val);
+	   				}
+   				}
+   				else //capital letters
+   				{
+   					if(c+7 <= 90)	
+   					{
+   						val = c+7;
+   						fprintf(fp2,"%c",c+7);
+   					}
+   					else //round
+   					{
+   						val = 64+(7-(90-c));
+	   					fprintf(fp2,"%c",val);
+	   				}
+   				}				
+   			}
+   			
+   			frequency1[c] += 1 ;
+   			frequency2[val] += 1 ;
+   		}
+   			
+   	}
+   	fprintf(fp2,"%c",'\n');
+   	printf("\n");
+	
+	printf("\nThis is the original text's frequency table :- \n");
+	for(i=65; i<123; i++)
+	{
+		if((i>=65&&i<=90)||(i>=97&&i<=122))
+			printf("%c = %d\n", i, frequency1[i]);
+	}
+		
+	printf("\nThis is the cipher text's(key=7) frequency table :- \n");
+	for(i=65; i<123; i++)
+	{
+		if((i>=65&&i<=90)||(i>=97&&i<=122))
+			printf("%c = %d\n", i, frequency2[i]);
+	}
+
+	fclose(fp1);
+return 0;
+}
