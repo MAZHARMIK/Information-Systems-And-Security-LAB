@@ -2,6 +2,17 @@
 int frequency1[123]={0};
 int frequency2[123]={0};
 
+
+void printStars(int a)
+{
+	int i;
+	for(i=0; i<a; i++)
+	{
+		printf("*");
+	}
+printf("\n");
+}
+
 int main()
 {
 	FILE *fp1, *fp2 ;
@@ -57,14 +68,22 @@ int main()
 	for(i=65; i<123; i++)
 	{
 		if((i>=65&&i<=90)||(i>=97&&i<=122))
-			printf("%c = %d\n", i, frequency1[i]);
+		{
+			printf("%c = ", i);
+			printStars(frequency1[i]);
+			printf("\n");
+		}
 	}
 		
 	printf("\nThis is the cipher text's(key=7) frequency table :- \n");
 	for(i=65; i<123; i++)
 	{
 		if((i>=65&&i<=90)||(i>=97&&i<=122))
-			printf("%c = %d\n", i, frequency2[i]);
+		{
+			printf("%c = ", i);
+			printStars(frequency2[i]);
+			printf("\n");
+		}
 	}
 
 	fclose(fp1);
