@@ -1,0 +1,54 @@
+#include<stdio.h>
+#include<string.h>
+
+int main()
+{
+	char playfair[5][5];
+	int alpha[256] = {0};
+	
+	char message[] = "football";
+	int i, j, z=0, flag=1;
+	
+	int length = strlen(message);
+	for(i=0; i<5; i++)
+	{
+		for(j=0; j<5; j++)
+		{
+			playfair[i][j] = '@';
+		}
+	}
+	for(i=0; i<5; i++)
+	{
+		for(j=0; j<5; j++)
+		{
+			if(alpha[message[z]]==0)
+			{
+				playfair[i][j] = message[z];
+				alpha[message[z]] = 1;
+			}
+			else
+				j--;
+			z = z+1;
+			if(z==length)
+			{
+				flag = 0;
+				break;
+			}
+		}
+		if(flag==0)
+			break;
+	}
+	
+	
+	
+	
+	for(i = 0; i<5; i++)
+	{
+		for(j=0; j<5; j++)
+		{
+			printf("%c ",playfair[i][j]);
+		}
+		printf("\n");
+	}
+return 0;
+}
