@@ -1,0 +1,51 @@
+#include <stdlib.h>
+#include <stdio.h>
+
+int binaryNum[8]={0};
+
+void decToBinary(int n)
+{
+	int j=0;
+    	while (n > 0)
+    	{
+        	binaryNum[j] = n % 2;
+        	n = n / 2;
+        	j++;
+    	}
+}
+
+
+int main ()
+{
+   	/*char c, st;
+   	FILE *fp1, *fp2, *fp3, *fp1a;
+	
+   	fp1 = fopen ("lena.ascii.pgm", "r+");
+   	fp2 = fopen ("output.txt", "r+");
+   	fp3 = fopen ("message.txt", "r+");
+   	int ch, binary;
+   	int i, j;
+   	for(i=0; i<59; i++)
+   	{
+   		ch = fgetc(fp1);
+   		st = ch;
+   		fputc(st, fp2);
+   	}
+   	
+   	int arr[512][512], temp;
+   	
+   	for(i=0; i<512; i++)
+   	{
+   		for(j=0; j<512; j++)
+   		{
+   			fscanf(fp1, "%d", &arr[i][j]);
+   		}
+   	}
+   	
+   	fputc('\n', fp2);
+   	
+   	*/
+   	
+   	
+return(0);
+}
