@@ -128,7 +128,9 @@ int main()
 		else
 			finalText[j++] = NewText[i];
 	}
+	
 	finalText[j] = '\0';
+	
 	if(j%2!=0)
 	{
 		j = j-1;
@@ -137,10 +139,13 @@ int main()
 	printf("size of final = %d\n", j);
 	printf("\n%s\n", finalText);
 	z = j;
+	
 	////////////////////////////////////////////////////////////////////////////////////////
+	
 	char Encoding[100];
 	int encoding_size=0;
-	int x1, x2, y1, y2;
+	int x1, x2, y1, y2, temp;
+	
 	for(i=0; i<z; i++)
 	{
 		getIndex(finalText[i]);
@@ -151,28 +156,38 @@ int main()
 		x2 = mik.x;
 		y2 = mik.y;
 		
-		printf("(%d %d) = %c, (%d, %d) = %c\n", x1, y1, playfair[x1][y1], x2, y2, playfair[x2][y2]);
+		//printf("(%d %d) = %c, (%d, %d) = %c\n", x1, y1, playfair[x1][y1], x2, y2, playfair[x2][y2]);
 		
 		if(x1==x2) //same row
 		{
-			if(y1==4)
-				y1=0;
-			if(y2==4)
-				y2=0;
-			
-			if(x1==4)
-				x1=0;
-			if(x2==4)
-				x2=0;
-			
-			
-			
-			Encoding[encoding_size++] = playfair[x1][y1+1];
-			if(x2==4)
-			
+			y1 = (y1+1)%5;
+			y2 = (y2+1)%5;
+			Encoding[encoding_size++] = playfair[x1][y1];
+			Encoding[encoding_size++] = playfair[x2][y2];
+		}
+		else if(y1==y2) //same column
+		{
+			x1 = (x1+1)%5;
+			x2 = (x2+1)%5;
+			Encoding[encoding_size++] = playfair[x1][y1];
+			Encoding[encoding_size++] = playfair[x2][y2];
+		}
 		
+		else //taking diagonal elements of the formed square
+		{
+			temp = y2;
+			y2 = y1;
+			y1 = temp;
+			Encoding[encoding_size++] = playfair[x1][y1];
+			Encoding[encoding_size++] = playfair[x2][y2];
+			
+		}
 		i++;
 	}
-		
+	printf("size of encoding = %d\n", encoding_size);
+	Encoding[encoding_size] = '\0';
+	
+	printf("%s\n", Encoding); //This is the encoded message
+	
 return 0;
 }
