@@ -1,15 +1,36 @@
 #include<stdio.h>
 #include<string.h>
 
+char playfair[5][5];
+struct index
+{
+	int x, y;
+}mik;
+
+void getIndex(char c)
+{
+	int i, j;
+	for(i=0; i<5; i++)
+	{
+		for(j=0; j<5; j++)
+		{
+			if(playfair[i][j]==c)
+			{
+				mik.x = i;
+				mik.y = j;
+			}
+		}
+	}
+}
+
 int main()
 {
-	char playfair[5][5];
-	int alpha[256] = {0};
+	int alpha[123] = {0};
 	
-	char message[] = "football";
+	char KEY[] = "iiest";
 	int i, j, z=0, flag=1;
-	
-	int length = strlen(message);
+	printf("The key is : %s\n", KEY);
+	int length = strlen(KEY);
 	for(i=0; i<5; i++)
 	{
 		for(j=0; j<5; j++)
@@ -17,14 +38,15 @@ int main()
 			playfair[i][j] = '@';
 		}
 	}
+	
 	for(i=0; i<5; i++)
 	{
 		for(j=0; j<5; j++)
 		{
-			if(alpha[message[z]]==0)
+			if(alpha[KEY[z]]==0)
 			{
-				playfair[i][j] = message[z];
-				alpha[message[z]] = 1;
+				playfair[i][j] = KEY[z];
+				alpha[KEY[z]] = 1;
 			}
 			else
 				j--;
@@ -40,15 +62,117 @@ int main()
 	}
 	
 	
+	int o;
+	j++;
+
+	for(o=97; o<123; o++)
+	{
+		if(o==106)//we are going to check for i/j
+		{
+			continue;
+		}
+		if(alpha[o]!=1)
+		{
+			playfair[i][j] = o;
+			alpha[o]=1;
+			j++;
+			if(j>=5)
+			{
+				i++;
+				j=0;
+			}
+		}
+	}
 	
 	
-	for(i = 0; i<5; i++)
+	printf("\nThis is the Play fair matrix\n");
+	
+	for(i=0; i<5; i++)
 	{
 		for(j=0; j<5; j++)
 		{
-			printf("%c ",playfair[i][j]);
+			printf("%c ", playfair[i][j]);
 		}
 		printf("\n");
 	}
+	////////////////////////////////////////////////////////////////////////////////////////
+	printf("Please Enter the plain text\n");
+	char plaintext[20];
+	char NewText[100];
+	char finalText[100];
+	scanf("%s", plaintext);
+	int plaintext_length = strlen(plaintext);
+	z = 0;
+	
+	//inserting characters in between repeating characters
+	for(i=0; i<plaintext_length; i++)
+	{
+		NewText[z++] = plaintext[i];
+		if(plaintext[i]==plaintext[i+1])
+			NewText[z++] = 'x';
+	}
+	
+	
+	if(z%2!=0)
+	{
+		NewText[z++] = 'x';
+		NewText[z] = '\0';
+	}
+	j=0;
+	for(i=0; i<z; i++)
+	{
+		if(NewText[i]=='x' && i%2==0)
+		{
+			finalText[j++] = NewText[++i];
+		}
+		else
+			finalText[j++] = NewText[i];
+	}
+	finalText[j] = '\0';
+	if(j%2!=0)
+	{
+		j = j-1;
+		finalText[j] = '\0';
+	}
+	printf("size of final = %d\n", j);
+	printf("\n%s\n", finalText);
+	z = j;
+	////////////////////////////////////////////////////////////////////////////////////////
+	char Encoding[100];
+	int encoding_size=0;
+	int x1, x2, y1, y2;
+	for(i=0; i<z; i++)
+	{
+		getIndex(finalText[i]);
+		x1 = mik.x;
+		y1 = mik.y;
+		
+		getIndex(finalText[i+1]);
+		x2 = mik.x;
+		y2 = mik.y;
+		
+		printf("(%d %d) = %c, (%d, %d) = %c\n", x1, y1, playfair[x1][y1], x2, y2, playfair[x2][y2]);
+		
+		if(x1==x2) //same row
+		{
+			if(y1==4)
+				y1=0;
+			if(y2==4)
+				y2=0;
+			
+			if(x1==4)
+				x1=0;
+			if(x2==4)
+				x2=0;
+			
+			
+			
+			Encoding[encoding_size++] = playfair[x1][y1+1];
+			if(x2==4)
+			
+		
+		i++;
+	}
+		
 return 0;
 }
