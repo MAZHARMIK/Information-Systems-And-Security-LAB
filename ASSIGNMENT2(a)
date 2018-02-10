@@ -1,5 +1,6 @@
-//IryyatbHmvaEhedLurlP
-
+/*
+Write a program in C/C++/Java to implement a Scytale with decryption scheme(Second part of Assignment-2)
+*/
 #include<stdio.h>
 #include<string.h>
 #include<math.h>
