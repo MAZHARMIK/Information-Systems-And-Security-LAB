@@ -1,51 +1,91 @@
-#include <stdlib.h>
-#include <stdio.h>
+#include<stdio.h>
+#include<stdlib.h>
 
-int binaryNum[8]={0};
-
-void decToBinary(int n)
+int main()
 {
-	int j=0;
-    	while (n > 0)
-    	{
-        	binaryNum[j] = n % 2;
-        	n = n / 2;
-        	j++;
-    	}
-}
+    FILE *fp1, *fp2;
+    fp1 = fopen ("lena.ascii.pgm", "r");
+    fp2 = fopen ("message.pgm", "w");
+    char magic, number ;
+    fscanf(fp1, "%c", &magic);
+    fscanf(fp1, "%c", &number);
+    fprintf(fp2, "%c%c\n# lena.pgma created by PGMA_IO::PGMA_WRITE.\n", magic, number); //writing the magic number
+
+    int rows, columns, max, element;
+    fscanf(fp1, "%d %d %d", &rows, &columns, &max);
+    fprintf(fp2, "%d %d\n%d\n", rows, columns, max);
 
 
-int main ()
-{
-   	/*char c, st;
-   	FILE *fp1, *fp2, *fp3, *fp1a;
-	
-   	fp1 = fopen ("lena.ascii.pgm", "r+");
-   	fp2 = fopen ("output.txt", "r+");
-   	fp3 = fopen ("message.txt", "r+");
-   	int ch, binary;
-   	int i, j;
-   	for(i=0; i<59; i++)
-   	{
-   		ch = fgetc(fp1);
-   		st = ch;
-   		fputc(st, fp2);
-   	}
-   	
-   	int arr[512][512], temp;
-   	
-   	for(i=0; i<512; i++)
-   	{
-   		for(j=0; j<512; j++)
-   		{
-   			fscanf(fp1, "%d", &arr[i][j]);
-   		}
-   	}
-   	
-   	fputc('\n', fp2);
-   	
-   	*/
-   	
-   	
-return(0);
+    int array[rows][columns], bits[8], i, j, ascii;
+    char Message[] = "MIK";
+    int message_length = strlen(Message);
+    for(i=0; i<rows; i++)
+    {
+        for(j=0; j<columns; j++)
+        {
+            fscanf(fp1, "%d", &element);
+            array[i][j] = element;
+        }
+    }
+    int arrayi=0, arrayj=0, m, temp, bits_var = 0, z;
+            int count=0;
+
+            for(i=0; i<message_length; i++)
+            {
+                z = 0;
+                printf("Count = %d, Message[%d] = %c\n", count++,i, Message[i]);
+                for(m=0; m<8; m++)
+                    bits[m] = 0;
+
+                ascii = Message[i];
+
+                while(ascii!=0)
+                {
+                    bits[z++] = ascii%2;
+                    ascii = ascii/2;
+                }
+
+                for(m=7; m>=4; m--)
+                {
+                    temp = bits[7-m];
+                    bits[7-m] = bits[m];
+                    bits[m] = temp;
+                }
+                printf("\nBefore loop: arrayi = %d, arrayj = %d, bits_var = %d\n", arrayi, arrayj, bits_var);
+                for(bits_var=0; bits_var<8; bits_var++)
+                {
+                    if(((array[arrayi][arrayj]%2 == 0) && bits[bits_var] == 0) || ((array[arrayi][arrayj]%2 != 0) && bits[bits_var] == 1))
+                    {
+                        fprintf(fp2, "%d ", array[arrayi][arrayj]);
+                    }
+                    else if(((array[arrayi][arrayj]%2 == 0) && bits[bits_var] == 1))
+                    {
+                        fprintf(fp2, "%d ", array[arrayi][arrayj]+1);
+                    }
+                    else if(((array[arrayi][arrayj]%2 != 0) && bits[bits_var] == 0))
+                    {
+                        fprintf(fp2, "%d ", array[arrayi][arrayj]-1);
+                    }
+
+                    if(arrayj+1>columns)
+                    {
+                        arrayi++;
+                        arrayj=0;
+                    }
+                    else
+                        arrayj++;
+                }
+            }
+            printf("\nAfter embedding all characters: arrayi = %d, arrayj = %d\n", arrayi, arrayj);
+            for(i=arrayi; i<rows; i++)
+            {
+                for(j=arrayj; j<columns; j++)
+                {
+                    fprintf(fp2, "%d ", array[i][j]);
+                }
+                if(j>=columns)
+                    arrayj = 0;
+                fprintf(fp2, "\n");
+            }
+return 0;
 }
