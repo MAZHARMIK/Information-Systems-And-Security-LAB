@@ -1,3 +1,8 @@
+/*
+A grayscale image is given in the uncompressed PGM format(File are avaiable as lena.asci.png). Hide your secret message in the least
+significant bit of every pixel constituting the image. Show the processed image and retrieve the hidden information back.
+*/
+
 #include<stdio.h>
 #include<stdlib.h>
 
