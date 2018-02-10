@@ -51,7 +51,7 @@ int main()
                     bits[7-m] = bits[m];
                     bits[m] = temp;
                 }
-                printf("\nBefore loop: arrayi = %d, arrayj = %d, bits_var = %d\n", arrayi, arrayj, bits_var);
+                
                 for(bits_var=0; bits_var<8; bits_var++)
                 {
                     if(((array[arrayi][arrayj]%2 == 0) && bits[bits_var] == 0) || ((array[arrayi][arrayj]%2 != 0) && bits[bits_var] == 1))
@@ -76,7 +76,7 @@ int main()
                         arrayj++;
                 }
             }
-            printf("\nAfter embedding all characters: arrayi = %d, arrayj = %d\n", arrayi, arrayj);
+            
             for(i=arrayi; i<rows; i++)
             {
                 for(j=arrayj; j<columns; j++)
