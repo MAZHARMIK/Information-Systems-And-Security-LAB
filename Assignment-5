@@ -1,3 +1,23 @@
+/*
+Small Introduction: Play Fair
+Example:
+The key is : iiest
+
+This is the Play fair matrix for the given key 'iiest'
+i e s t a
+b c d f g
+h k l m n
+o p q r u
+v w x y z
+
+Output: 
+
+Please Enter the plain text: iamafaculty
+Encrypted Text : eintgtgpmszy
+Decrypted Text: iamafaculty
+*/
+
+
 #include<stdio.h>
 #include<string.h>
 
@@ -26,7 +46,7 @@ void getIndex(char c)
 int main()
 {
 	int alpha[123] = {0};
-	
+
 	char KEY[] = "iiest";
 	int i, j, z=0, flag=1;
 	printf("The key is : %s\n", KEY);
@@ -38,7 +58,7 @@ int main()
 			playfair[i][j] = '@';
 		}
 	}
-	
+
 	for(i=0; i<5; i++)
 	{
 		for(j=0; j<5; j++)
@@ -60,8 +80,8 @@ int main()
 		if(flag==0)
 			break;
 	}
-	
-	
+
+
 	int o;
 	j++;
 
@@ -83,10 +103,10 @@ int main()
 			}
 		}
 	}
-	
-	
+
+
 	printf("\nThis is the Play fair matrix\n");
-	
+
 	for(i=0; i<5; i++)
 	{
 		for(j=0; j<5; j++)
@@ -96,14 +116,15 @@ int main()
 		printf("\n");
 	}
 	////////////////////////////////////////////////////////////////////////////////////////
-	printf("Please Enter the plain text\n");
+
+	printf("Please Enter the plain text: ");
 	char plaintext[20];
 	char NewText[100];
 	char finalText[100];
 	scanf("%s", plaintext);
 	int plaintext_length = strlen(plaintext);
 	z = 0;
-	
+
 	//inserting characters in between repeating characters
 	for(i=0; i<plaintext_length; i++)
 	{
@@ -111,8 +132,8 @@ int main()
 		if(plaintext[i]==plaintext[i+1])
 			NewText[z++] = 'x';
 	}
-	
-	
+
+
 	if(z%2!=0)
 	{
 		NewText[z++] = 'x';
@@ -128,36 +149,39 @@ int main()
 		else
 			finalText[j++] = NewText[i];
 	}
-	
+
 	finalText[j] = '\0';
-	
+
 	if(j%2!=0)
 	{
 		j = j-1;
 		finalText[j] = '\0';
 	}
-	printf("size of final = %d\n", j);
-	printf("\n%s\n", finalText);
+
 	z = j;
-	
+
 	////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	char Encoding[100];
 	int encoding_size=0;
 	int x1, x2, y1, y2, temp;
-	
+
 	for(i=0; i<z; i++)
 	{
-		getIndex(finalText[i]);
+        if(finalText[i]=='j')
+            getIndex('i');
+        else
+            getIndex(finalText[i]);
+
 		x1 = mik.x;
 		y1 = mik.y;
-		
+
 		getIndex(finalText[i+1]);
 		x2 = mik.x;
 		y2 = mik.y;
-		
+
 		//printf("(%d %d) = %c, (%d, %d) = %c\n", x1, y1, playfair[x1][y1], x2, y2, playfair[x2][y2]);
-		
+
 		if(x1==x2) //same row
 		{
 			y1 = (y1+1)%5;
@@ -172,7 +196,7 @@ int main()
 			Encoding[encoding_size++] = playfair[x1][y1];
 			Encoding[encoding_size++] = playfair[x2][y2];
 		}
-		
+
 		else //taking diagonal elements of the formed square
 		{
 			temp = y2;
@@ -180,14 +204,69 @@ int main()
 			y1 = temp;
 			Encoding[encoding_size++] = playfair[x1][y1];
 			Encoding[encoding_size++] = playfair[x2][y2];
-			
+
 		}
 		i++;
 	}
-	printf("size of encoding = %d\n", encoding_size);
+	//printf("size of encoding = %d\n", encoding_size);
 	Encoding[encoding_size] = '\0';
-	
-	printf("%s\n", Encoding); //This is the encoded message
-	
+
+	printf("Encrypted Text : %s\n", Encoding); //This is the encoded message
+
+	////////////////////////////////////////DECODING////////////////////////////////////////////////
+
+    char Decoding[100], decoding_size = 0;
+	for(i=0; i<encoding_size; i++)
+	{
+	    if(Encoding[i]=='j')
+            getIndex('i');
+        else
+            getIndex(Encoding[i]);
+
+		x1 = mik.x;
+		y1 = mik.y;
+
+		getIndex(Encoding[i+1]);
+		x2 = mik.x;
+		y2 = mik.y;
+
+		//printf("(%d %d) = %c, (%d, %d) = %c\n", x1, y1, playfair[x1][y1], x2, y2, playfair[x2][y2]);
+
+		if(x1==x2) //same row
+		{
+			y1 = ((y1-1)<0) ? 4 : (y1-1);
+			y2 = ((y2-1)<0) ? 4 : (y2-1);
+			Decoding[decoding_size++] = playfair[x1][y1];
+			Decoding[decoding_size++] = playfair[x2][y2];
+		}
+		else if(y1==y2) //same column
+		{
+			x1 = ((x1-1)<0) ? 4 : (x1-1);
+			x2 = ((x2-1)<0) ? 4 : (x2-1);
+			Decoding[decoding_size++] = playfair[x1][y1];
+			Decoding[decoding_size++] = playfair[x2][y2];
+		}
+
+		else //taking diagonal elements of the square formed
+		{
+			temp = y2;
+			y2 = y1;
+			y1 = temp;
+			Decoding[decoding_size++] = playfair[x1][y1];
+			Decoding[decoding_size++] = playfair[x2][y2];
+
+		}
+		i++;
+	}
+    Decoding[decoding_size] = '\0';
+
+    printf("Decrypted Text: ");
+
+	for(i=0; i<decoding_size; i++)
+    {
+        if(Decoding[i]!='x')
+            printf("%c", Decoding[i]);
+    }
+
 return 0;
 }
