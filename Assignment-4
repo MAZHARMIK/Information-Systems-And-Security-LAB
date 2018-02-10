@@ -28,12 +28,10 @@ int main()
         }
     }
     int arrayi=0, arrayj=0, m, temp, bits_var = 0, z;
-            int count=0;
 
             for(i=0; i<message_length; i++)
             {
                 z = 0;
-                printf("Count = %d, Message[%d] = %c\n", count++,i, Message[i]);
                 for(m=0; m<8; m++)
                     bits[m] = 0;
 
