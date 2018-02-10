@@ -1,4 +1,7 @@
 /*
+Write a program in C/C++/Java to construct a playfair matrix and implement a playfair cipher that encrypts and decrypts message
+using a playfair matrix.
+
 Small Introduction: Play Fair
 Example:
 The key is : iiest
