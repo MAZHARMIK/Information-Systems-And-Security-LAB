@@ -1,3 +1,8 @@
+/*
+Write a program in C/C++/Java to read a large file containing English text only and show the frequencies of its characters.
+Now encrypt this plaintext with a generalized Caesar cipher with key value 7 and show the frequencies of characters in the ciphertext. 
+*/
+
 #include <stdio.h>
 int frequency1[123]={0};
 int frequency2[123]={0};
