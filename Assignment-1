@@ -1,3 +1,11 @@
+/*
+Consider that there are four sets of characters, namely the uppercase English alphabets, the lowercase English alphabets,
+the decimal digits and the special characters. The strength of a password can be defined as weak, moderate, strong and very
+strong based on whether its elements belong to any one, two, three or all the four sets said above, respectively.Take a password
+as user input and return its strength. Also return the message that the password is too short if the length is no more than six.
+*/
+
+
 #include<iostream>
 #include<unistd.h>
 #include<bits/stdc++.h>
