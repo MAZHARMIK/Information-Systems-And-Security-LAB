@@ -1,18 +1,15 @@
 //Write a program in C/C++/Java to implement the DES algorithm
 
 #include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
 
-int main()
+void round_fun(char *Left_text, char *Right_text, char *Left_key, char *Right_key, int sixteen)
 {
     int i, j, z=0;
-    char plaint_text[64] = "0000000100100011010001010110011110001001101010111100110111101111";
-    char Left_key[28], Right_key[28], Left_text[32], Right_text[32];
-    for(i=0; i<32; i++)
-    {
-        Left_text[i] = plaint_text[i];
-        Right_text[i] = plaint_text[i+32];
-    }
+    printf("\nRound = %d\n", 16-sixteen);
     printf("Left_Text: \n");
+    char Left_shift_key[28], Right_shift_key[28], key_plus[56];
     for(i=0; i<32; i++)
     {
         printf("%c", Left_text[i]);
@@ -22,39 +19,8 @@ int main()
     {
         printf("%c", Right_text[i]);
     }
-    char Left_shift_key[28], Right_shift_key[28];
-    char *key = "0001001100110100010101110111100110011011101111001101111111110001";
-    printf("\nkey : \n%s",key);
-    char key_plus[56];
-    int table_one[8][7] = {
-                        {57,49,41,33,25,17,9},
-                        {1,58,50,42,34,26,18},
-                        {10,2,59,51,43,35,27},
-                        {19,11,3,60,52,44,36},
-                        {63,55,47,39,31,23,15},
-                        {7,62,54,46,38,30,22},
-                        {14,6,61,53,45,37,29},
-                        {21,13,5,28,20,12,4}
-                       };
-
-    for(i=0; i<8; i++)
-    {
-        for(j=0; j<7; j++)
-        {
-            key_plus[z++] = key[table_one[i][j]-1];
-        }
-    }
-    printf("\nKey_plus : \n");
-    for(i=0; i<56; i++)
-    {
-        printf("%c", key_plus[i]);
-    }
     printf("\nLeft_Key : \n");
-    for(i=0; i<28; i++)
-    {
-        Left_key[i] = key_plus[i];
-        Right_key[i] = key_plus[i+28];
-    }
+    
     for(i=0; i<28; i++)
     {
         printf("%c", Left_key[i]);
@@ -64,8 +30,12 @@ int main()
     {
         printf("%c", Right_key[i]);
     }
+    printf("\n");
+	if(sixteen==0)
+		exit(0);
+    
     ///==========================SHIFT=========================
-
+	
     for(i=0; i<27; i++)
     {
         Left_shift_key[i] = Left_key[i+1];
@@ -74,17 +44,9 @@ int main()
     Left_shift_key[27] = Left_key[0];
     Right_shift_key[27] = Right_key[0];
 
-    printf("\nLeft_shift_key : \n");
-    for(i=0; i<28; i++)
-    {
-        printf("%c", Left_shift_key[i]);
-    }
+    
 
-    printf("\nRight_shift_key : \n");
-    for(i=0; i<28; i++)
-    {
-        printf("%c", Right_shift_key[i]);
-    }
+    
 
     ///==========================left_shift_key + right_shift_key=========================
     for(i=0; i<28; i++)
@@ -93,11 +55,7 @@ int main()
         key_plus[i+28] = Right_shift_key[i];
     }
 
-    printf("\nFinal_Key_Plus : \n");
-    for(i=0; i<56; i++)
-    {
-        printf("%c", key_plus[i]);
-    }
+    
 
     char table_two[8][6] = {{14  ,  17  , 11  ,  24   ,  1  ,  5},
 		          {3  ,  28  , 15  ,   6  ,  21  , 10},
@@ -117,12 +75,7 @@ int main()
             final_key[z++] = key_plus[table_two[i][j]-1];
         }
     }
-    printf("\nFinal_Key : \n");
-    for(i=0; i<48; i++)
-    {
-        printf("%c", final_key[i]);
-    }
-
+    
     z=0;
     char modified_Right_Text[48];
     modified_Right_Text[0] = Right_text[31];
@@ -138,7 +91,7 @@ int main()
         else
             modified_Right_Text[i] = Right_text[z++];
     }
-    printf("\nfour to six : \n");
+    
     for(i=0; i<48; i++)
     {
             if(modified_Right_Text[i]=='c')
@@ -146,10 +99,8 @@ int main()
                 modified_Right_Text[i] = modified_Right_Text[i+2];
                 modified_Right_Text[i+1] = modified_Right_Text[i-1];
             }
-
-            printf("%c", modified_Right_Text[i]);
     }
-    printf("\nXor : \n");
+    
     char Xor[48];
     for(i=0; i<48; i++)
     {
@@ -158,12 +109,9 @@ int main()
             else
                 Xor[i] = '1';
     }
-    for(i=0; i<48; i++)
-    {
-            printf("%c", Xor[i]);
-    }
+    
     z = 0;
-    char New_Xor[32];
+    char New_Xor[32]; // S-box
     for(i=1; i<47; i++)
     {
             if((i+1)%6==0 || (i%6==0))
@@ -174,12 +122,8 @@ int main()
                 New_Xor[z++] = Xor[i];
     }
 
-    printf("\nNew_Xor : \n");
-    for(i=0; i<32; i++)
-    {
-            printf("%c", New_Xor[i]);
-    }
-
+    
+	//p-box
     char table_three[4][8] = {
                               {16,7,20,21,29,12,28,17},
                               {1,15,23,26,5,18,31,10},
@@ -196,11 +140,6 @@ int main()
         }
     }
 
-    printf("\nfinal_modified_Right_Text : \n");
-    for(i=0; i<32; i++)
-    {
-        printf("%c", final_modified_Right_Text[i]);
-    }
 
     char xored_final_modified_Right_Text[32];
 
@@ -212,12 +151,58 @@ int main()
                 xored_final_modified_Right_Text[i] = '1';
     }
 
-    printf("\nxored_final_modified_Right_Text : \n");
+    
     for(i=0; i<32; i++)
     {
         Left_text[i] = Right_text[i]; //Left_text becomes the Right_Text
-        printf("%c", xored_final_modified_Right_Text[i]);
     }
+	
+	round_fun(Left_text, xored_final_modified_Right_Text, Left_shift_key, Right_shift_key, --sixteen);
+}
 
-return 0;
+
+int main()
+{
+	int i, j, z=0;
+    char plaint_text[64] = "0000000100100011010001010110011110001001101010111100110111101111";
+    char Left_key[28], Right_key[28], Left_text[32], Right_text[32];
+    for(i=0; i<32; i++)
+    {
+        Left_text[i] = plaint_text[i];
+        Right_text[i] = plaint_text[i+32];
+    }
+    
+    
+    char *key = "0001001100110100010101110111100110011011101111001101111111110001";
+    //printf("\nkey : \n%s",key);
+    char key_plus[56];
+    int table_one[8][7] = {
+                        {57,49,41,33,25,17,9},
+                        {1,58,50,42,34,26,18},
+                        {10,2,59,51,43,35,27},
+                        {19,11,3,60,52,44,36},
+                        {63,55,47,39,31,23,15},
+                        {7,62,54,46,38,30,22},
+                        {14,6,61,53,45,37,29},
+                        {21,13,5,28,20,12,4}
+                       };
+
+    for(i=0; i<8; i++)
+    {
+        for(j=0; j<7; j++)
+        {
+            key_plus[z++] = key[table_one[i][j]-1];
+        }
+    }
+    
+    for(i=0; i<28; i++)
+    {
+        Left_key[i] = key_plus[i];
+        Right_key[i] = key_plus[i+28];
+    }
+    
+    int sixteen = 16;
+    round_fun(Left_text, Right_text, Left_key, Right_key, sixteen);
+ 
+ 
 }
