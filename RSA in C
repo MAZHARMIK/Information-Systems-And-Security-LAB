@@ -1,0 +1,75 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+
+//gcd utility
+int gcd(int a, int b)
+{
+    if (a == b)
+        return a;
+ 
+    if (a > b)
+        return gcd(a-b, b);
+    return gcd(a, b-a);
+}
+ 
+//Efficiently computing ((a^b)%n)
+int power_mod(int a,int b,int n)
+{
+	int x = 0;
+	int f = 1;
+	int k = 0,i; //b has k digits in binary form
+	int z = b;
+	int binaryNum[1000];
+	while(z>0)
+	{
+		binaryNum[k] = z % 2;
+		z = z/2;
+		k++;
+	}
+	for(i=k-1;i>=0;i--)
+	{
+		x = x*2;
+		f = (f*f)%n;
+		if(binaryNum[i] == 1)
+		{
+			x++;
+			f = (f*a)%n;
+		}
+	}
+	return f;
+}
+
+//finding the d value
+int find_d(int e, int lambda)
+{
+	int d = 1;
+	while((d*e)%lambda != 1)
+    	d++;
+    return d;
+}
+
+//driver fucntion
+int main()
+{
+	int i, p, q, n, e = 2, P;
+	printf("\nEnter the value of p and q\n");
+	scanf("%d %d", &p, &q);
+	int lambda = (p-1)*(q-1);
+	n = p*q; 
+	while (e < lambda)
+	{
+		if (gcd(e, lambda)==1)
+			break;
+		else
+			e++;
+	}
+    int d = find_d(e, lambda);
+    scanf("%d", &P);
+    int c = power_mod(P, e, n);
+    printf("\nAfter encrypton.\n");
+    printf("\nEncrypted data = %d\n ", c);
+    int m = power_mod(c, d, n);
+    printf("\nOriginal Message Sent = %d\n", m);
+return 0;
+}
