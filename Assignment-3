@@ -38,7 +38,7 @@ int main()
    					if(c+7 <= 122)	
    					{
    						val = c+7;
-   						fprintf(fp2,"%c",c+7);
+   						fprintf(fp2,"%c",val);
    					}
    					else //round
    					{
