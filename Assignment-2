@@ -53,9 +53,9 @@ void DecryptedMessage()
 {
     int i, j;
 
-    for(i=0; i<5; i++)
+    for(i=0; i<key; i++)
     {
-        for(j=0; j<4; j++)
+        for(j=0; j<column; j++)
         {
             printf("%c", Scytale[j][i]);
         }
