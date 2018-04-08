@@ -15,14 +15,10 @@ void MakeScytale(char Message[], int key, int column)
     {
         for(j=0; j<column; j++)
         {
+	    Scytale[i][j] = Message[k++];
             if(Message[k]==' ')
-            {
-                k++;
-                Scytale[i][j] = Message[k++];
-            }
-            else
-                Scytale[i][j] = Message[k++];
-        }
+	    	k++;
+	}
     }
 }
 
