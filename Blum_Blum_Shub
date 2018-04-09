@@ -1,0 +1,33 @@
+#include<stdio.h>
+
+//utility function to generate random numbers
+void LCG(int array[], int M, int limit)
+{
+	if(limit==20)
+		return;
+	
+	array[limit+1] = (array[limit]*array[limit])%M;
+	limit++;
+	LCG(array, M, limit);
+}
+
+//driver function
+int main()
+{
+	int array[20] = {0}, p, q, i, m;
+	printf("Enter the value of p and q and seed:\n");
+	
+	scanf("%d %d %d", &p, &q, &array[0]);
+	
+	int M = p*q ; // For example: 79*83;
+	int limit = 0;
+	
+	LCG(array, M, limit);
+	printf("\n");
+	
+	for(i=0 ; i<20; i++)
+		printf("%d ", array[i]);
+	
+	printf("\n");
+return 0;
+}
