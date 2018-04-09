@@ -1,0 +1,29 @@
+#include<stdio.h>
+
+//utility function to generate random numbers
+void LCG(int array[], int a, int c, int m, int limit)
+{
+	if(limit==20)
+		return;
+	
+	array[limit+1] = (a*array[limit]+c)%m;
+	limit++;
+	LCG(array, a, c, m, limit);
+}
+
+//driver function
+int main()
+{
+	int array[20] = {0}, i, a, c, m;
+	array[0] = 5;
+	printf("Enter the value of a, c and m:\n");
+	scanf("%d %d %d", &a, &c, &m);
+	
+	int limit = 0;
+	LCG(array, a, c, m, limit);
+	printf("\n");
+	for(i=0 ; i<20; i++)
+		printf("%d ", array[i]);
+	printf("\n");
+return 0;
+}
